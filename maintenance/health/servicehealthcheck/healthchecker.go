@@ -75,7 +75,6 @@ func (h *handler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	}
 
 	name := splitRoute[1]
-
 	hcInterface, isIn := checks.Load(name)
 	if !isIn {
 		h.writeError(w, errors.New("Health Check not registered\n"), http.StatusNotFound, name)
