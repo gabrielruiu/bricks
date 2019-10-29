@@ -121,7 +121,7 @@ func RegisterHealthCheck(hc HealthCheck, name string) {
 	defer checksLock.Unlock()
 	checks[name] = hc
 	if err := hc.InitHealthCheck(); err != nil {
-		log.Warnf("Error initialising HealthCheck  %T: %v", hc, err)
+		log.Warnf("Error initialising health check  %T: %v", hc, err)
 		initErrors[name] = err
 	}
 	router.Handle("/health/"+name, Handler())
