@@ -77,7 +77,7 @@ func (h *handler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	name := splitRoute[1]
 
 	if checks[name] == nil {
-		h.writeError(w, errors.New("Health Check not registered\n"), http.StatusNotFound, name)
+		h.writeError(w, errors.New("Health check not registered"), http.StatusNotFound, name)
 		return
 	}
 	hc := checks[name]
