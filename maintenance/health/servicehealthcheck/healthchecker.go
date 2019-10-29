@@ -68,7 +68,7 @@ func (h *handler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 
 	//Check the route first
 	if len(splitRoute) < 2 || splitRoute[0] != "" {
-		h.writeError(w, errors.New("Route not Valid\n"), http.StatusBadRequest, route)
+		h.writeError(w, errors.New("Route not valid"), http.StatusBadRequest, route)
 		return
 	}
 
