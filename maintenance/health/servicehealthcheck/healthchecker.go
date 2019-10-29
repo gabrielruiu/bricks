@@ -102,7 +102,7 @@ func (h *handler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 func (h *handler) writeError(w http.ResponseWriter, err error, errorCode int, name string) {
 	w.Header().Set("Content-Type", "text/plain")
 	w.WriteHeader(errorCode)
-	w.Write([]byte("Error \n")) // nolint: gosec,errcheck
+	w.Write([]byte("ERR")) // nolint: gosec,errcheck
 	log.Warnf("helthcheck %v was not healthy %v", name, err)
 }
 
