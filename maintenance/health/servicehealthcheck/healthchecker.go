@@ -9,7 +9,6 @@ import (
 	"sync"
 	"time"
 
-	"github.com/gorilla/mux"
 	"github.com/pace/bricks/maintenance/errors"
 	"github.com/pace/bricks/maintenance/log"
 )
@@ -36,9 +35,6 @@ var checks sync.Map
 
 // initErrors map with all errors that happened in the initialisation of the health checks - key:Name
 var initErrors sync.Map
-
-// router is needed to dynamically add health checks
-var router *mux.Router
 
 func (cs *ConnectionState) setConnectionState(healthy bool, err error, mom time.Time) {
 	cs.m.Lock()
@@ -116,21 +112,11 @@ func RegisterHealthCheck(hc HealthCheck, name string) {
 		log.Debugf("Health checks can only be added once, tried to add another health check with name %v", name)
 		return
 	}
-	if router == nil {
-		log.Errorf("Tried to add HealthCheck ( %T ) without a router", hc)
-		return
-	}
 	checks.Store(name, hc)
 	if err := hc.InitHealthCheck(); err != nil {
 		log.Warnf("Error initialising health check  %T: %v", hc, err)
 		initErrors.Store(name, err)
 	}
-	router.Handle("/health/"+name, Handler())
-}
-
-// InitialiseHealthChecker must be called so the health checker can register new health checks as routes
-func InitialiseHealthChecker(r *mux.Router) {
-	router = r
 }
 
 // Handler returns the health api endpoint
